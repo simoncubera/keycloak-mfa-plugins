@@ -23,6 +23,10 @@
 			<artifactId>libphonenumber</artifactId>
 			<version>8.13.54</version>
 		</dependency>
+		<dependency>
+			<groupId>com.azure</groupId>
+			<artifactId>azure-communication-sms</artifactId>
+		</dependency>
 		<!-- Necessary for proper execution of IDELauncher -->
 		<!-- Can be removed as part of the https://github.com/keycloak/keycloak/issues/22455 enhancement -->
 		<dependency>
@@ -72,16 +76,26 @@
 							<goal>shade</goal>
 						</goals>
 						<configuration>
-							<artifactSet>
-								<includes>
-									<include>com.googlecode.libphonenumber:libphonenumber</include>
-								</includes>
-							</artifactSet>
+							<transformers>
+								<transformer implementation="org.apache.maven.plugins.shade.resource.ApacheLicenseResourceTransformer"/>
+								<transformer implementation="org.apache.maven.plugins.shade.resource.ApacheNoticeResourceTransformer"/>
+								<transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
+							</transformers>
 							<filters>
 								<filter>
-									<artifact>com.googlecode.libphonenumber:libphonenumber</artifact>
+									<artifact>*:*</artifact>
 									<excludes>
+										<exclude>META-INF/.more.tgz</exclude>
+										<exclude>META-INF/*.DSA</exclude>
+										<exclude>META-INF/*.RSA</exclude>
+										<exclude>META-INF/*.SF</exclude>
+										<exclude>META-INF/importmap.json</exclude>
+										<exclude>META-INF/io.netty.versions.properties</exclude>
+										<exclude>META-INF/license/**</exclude>
 										<exclude>META-INF/MANIFEST.MF</exclude>
+										<exclude>META-INF/maven/**</exclude>
+										<exclude>META-INF/versions/*/module-info.class</exclude>
+										<exclude>module-info.class</exclude>
 									</excludes>
 								</filter>
 							</filters>
