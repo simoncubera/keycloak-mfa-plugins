@@ -33,6 +33,8 @@ public class SmsServiceFactory {
 		if (Boolean.parseBoolean(config.getOrDefault("simulation", "false"))) {
 			return (phoneNumber, message) ->
 				logger.infof("***** SIMULATION MODE ***** Would send SMS to %s with text: %s", phoneNumber, message);
+		} else if ("azure".equals(config.get("smsProvider"))) {
+			return new AzureSmsService(config);
 		} else {
 			return new ApiSmsService(config);
 		}
